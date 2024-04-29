@@ -1,5 +1,8 @@
 <?php
     include "config.php";
+    if ($_SESSION['role'] == '0') {
+        header('location: post.php');
+    }
     $id = $_GET['id'];
 
     $query = "DELETE FROM user WHERE id = '{$id}'";
