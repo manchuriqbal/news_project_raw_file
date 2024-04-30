@@ -55,7 +55,7 @@ if (isset($_SESSION['username'])) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         session_start();
                                         $_SESSION['username'] = $row['username'];
-                                        $_SESSION['password'] = $row['password'];
+                                        $_SESSION['user_id'] = $row['id'];
                                         $_SESSION['role'] = $row['role'];
                                         header('location: post.php');
                                     }
