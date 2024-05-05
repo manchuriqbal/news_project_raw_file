@@ -2,6 +2,7 @@
 session_start();
 if (isset($_SESSION['username'])) {
     header('location: post.php');
+    exit;
 }
 
 ?>
@@ -58,6 +59,7 @@ if (isset($_SESSION['username'])) {
                                         $_SESSION['user_id'] = $row['id'];
                                         $_SESSION['role'] = $row['role'];
                                         header('location: post.php');
+                                        exit;
                                     }
 
                                 } else{

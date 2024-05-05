@@ -36,7 +36,7 @@ if (isset($_REQUEST['fileToUpload'])) {
     $post_desc = mysqli_real_escape_string($connection, $_POST['post_desc']);
     $category = mysqli_real_escape_string($connection, $_POST['category']);
     $date = date('Y-m-d');
-    $author = $_SESSION['username'];
+    $author = $_SESSION['user_id'];
 
     $query = "INSERT INTO post (post_title, post_desc, category, post_date, author, post_img) 
         VALUES ('{$post_title}', '{$post_desc}', '{$category}', '{$date}', '{$author}', '{$new_name}');";
