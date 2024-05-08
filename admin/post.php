@@ -88,7 +88,7 @@
                 <?php
                 include "config.php";
                 $query2 = "SELECT * FROM post";
-                $result2 = mysqli_query($connection, $query2) or dir("Failed.");
+                $result2 = mysqli_query($connection, $query2) or die("Failed.");
 
 
                 if (mysqli_num_rows($result2)) {

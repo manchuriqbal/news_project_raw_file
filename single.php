@@ -8,7 +8,9 @@
 
         <?php 
             include "admin/config.php";
-            $id = $_REQUEST['id'];
+            if (isset($_REQUEST['id'])) {
+                $id = $_REQUEST['id'];
+
 
             $query = "SELECT post.post_id, post.post_title, post.post_desc,post.category, post.post_img, post.post_date,
                     category.category_name, user.username FROM post 
@@ -48,7 +50,7 @@
                     </div>
                     <!-- /post-container -->
         <?php 
-
+                     }
                 }
             }
 
