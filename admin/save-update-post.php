@@ -38,6 +38,7 @@ if (isset($_REQUEST['submit'])) {
     $post_title = mysqli_real_escape_string($connection, $_POST['post_title']);
     $post_desc = mysqli_real_escape_string($connection, $_POST['post_desc']);
     $category = mysqli_real_escape_string($connection, $_POST['category']);
+    $post_img = $_POST['old_image'];
 
     $query = "UPDATE post SET 
         post_title= '{$post_title}', 
@@ -52,8 +53,15 @@ if (isset($_REQUEST['submit'])) {
 
     $result = mysqli_multi_query($connection, $query) or die('post update query failed');
 
+
+
+    if ($post_img != $new_name) {
+        unlink("upload/".$post_img);
+    }
+
     if ($result) {
         header('location: post.php');
+        exit();
     } else {
         echo "Query Faioled";
     }
