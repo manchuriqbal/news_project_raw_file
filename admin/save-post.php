@@ -2,7 +2,7 @@
 include "config.php";
 session_start();
 
-if (isset($_REQUEST['fileToUpload'])) {
+if (isset($_FILES['fileToUpload'])) {
     $errors = array();
 
     $file_name = $_FILES['fileToUpload']['name'];
@@ -13,7 +13,7 @@ if (isset($_REQUEST['fileToUpload'])) {
 
     $extensions = array('jpg', 'png', 'jpeg');
 
-    if(!in_array($file_ext, $extensions)) {
+    if(in_array($file_ext, $extensions) === false) {
         $errors[] = "This extension file is not allowed. Please choose a jpg or png file.";
     }
     if ($file_size > 2097152) {
@@ -28,6 +28,7 @@ if (isset($_REQUEST['fileToUpload'])) {
         print_r($errors);
         die();
     }
+    
 }
 
 
@@ -44,11 +45,13 @@ if (isset($_REQUEST['fileToUpload'])) {
     $query .= "UPDATE category SET post = post + 1 WHERE category_id = '{$category}';";
     $result = mysqli_multi_query($connection, $query) or die('Insert query error');
 
-
+    
 
     if ($result) {
         header('location: post.php');
-    }
+    }else{
+        echo "<div class='alert alert-danger'>Query Failed.</div>";
+      }
 
 
 ?>

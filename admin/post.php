@@ -23,13 +23,13 @@
 
                 if ($_SESSION['role'] == '1') {
                     $query = "SELECT post.post_id, post.post_title, post.post_date, post.post_desc, post.author, 
-                    post.category, category.category_name, user.username  FROM post 
+                    post.category, post.post_img, category.category_name, user.username  FROM post 
                     LEFT JOIN category ON post.category = category.category_id
                     LEFT JOIN user ON post.author = user.id
                     ORDER BY post_id DESC LIMIT {$offset}, {$limit}";
                 } elseif ($_SESSION['role'] == '0') {
                   $query = "SELECT post.post_id, post.post_title, post.post_date, post.post_desc, post.author, 
-                    post.category, category.category_name, user.username
+                    post.category, post.post_img, category.category_name, user.username
                     FROM post 
                     LEFT JOIN category ON post.category = category.category_id
                     LEFT JOIN user ON post.author = user.id
@@ -50,6 +50,7 @@
                         <thead>
                             <th>S.No.</th>
                             <!-- <th>Image</th> -->
+                            <th>Image</th>
                             <th>Title</th>
                             <th>Category</th>
                             <th>Date</th>
@@ -59,12 +60,13 @@
                         </thead>
                         <tbody>
                             <?php
-                            $serial_no = 1;
+                            $serial_no = ($page_number - 1) * $limit + 1;
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
                                 <tr>
                                     <td class='id'><?php echo $serial_no++ ?></td>
                                     <!-- <td><img height="50px" src="../images/post_1.jpg"></td> -->
+                                    <td><img height="50px" src="upload/<?php echo $row['post_img'] ?>"></td>
                                     <td><?php echo $row['post_title'] ?></td>
                                     <td><?php echo $row['category_name'] ?></td>
                                     <td><?php echo $row['post_date'] ?></td>
