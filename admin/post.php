@@ -11,7 +11,7 @@
             <div class="col-md-12">
                 <?php
                 include "config.php";
-                $limit = 3;
+                $limit = 5;
 
                 if (isset($_GET['page'])) {
                     $page_number = $_GET['page'];
