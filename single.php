@@ -13,7 +13,7 @@
 
 
             $query = "SELECT post.post_id, post.post_title, post.post_desc,post.category, post.post_img, post.post_date,
-                    category.category_name, user.username FROM post 
+                    category.category_name, user.username, user.id FROM post 
                     LEFT JOIN category ON post.category = category.category_id
                     LEFT JOIN user ON post.author = user.id
                     WHERE post.post_id = '{$id}'";
@@ -35,7 +35,7 @@
                                 </span>
                                 <span>
                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                    <a href='author.php'><?php echo $row['username']?></a>
+                                    <a href='author.php?id=<?php echo $row['id'] ?>'><?php echo $row['username']?></a>
                                 </span>
                                 <span>
                                     <i class="fa fa-calendar" aria-hidden="true"></i>

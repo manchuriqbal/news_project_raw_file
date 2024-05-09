@@ -21,7 +21,7 @@
 
                 
                 $query = "SELECT post.post_id, post.post_title, post.post_date, post.post_desc, post.author, 
-                post.category, post.post_img, category.category_name, user.username  FROM post 
+                post.category, post.post_img, category.category_name, user.username, user.id FROM post 
                 LEFT JOIN category ON post.category = category.category_id
                 LEFT JOIN user ON post.author = user.id
                 ORDER BY post_id DESC LIMIT {$offset}, {$limit}";
@@ -52,7 +52,7 @@
                                         </span>
                                         <span>
                                             <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php'><?php echo $row['username'] ?></a>
+                                            <a href='author.php?id=<?php echo $row['id'] ?>'><?php echo $row['username'] ?></a>
                                         </span>
                                         <span>
                                             <i class="fa fa-calendar" aria-hidden="true"></i>

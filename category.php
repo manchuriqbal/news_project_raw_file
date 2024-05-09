@@ -22,7 +22,7 @@
             
                  
                   $query = "SELECT post.post_id, post.post_title, post.post_desc,post.category, post.post_img, post.post_date,
-                    category.category_name, user.username FROM post 
+                    category.category_name, category.category_id, user.username, user.id FROM post 
                     LEFT JOIN category ON post.category = category.category_id
                     LEFT JOIN user ON post.author = user.id
                     WHERE category.category_id = '{$id}' ORDER BY category_id DESC LIMIT {$offset}, {$limit}";
@@ -57,16 +57,14 @@
                                         </span>
                                         <span>
                                             <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php'><?php echo $row['username'] ?></a>
+                                            <a href='author.php?id=<?php echo $row['id'] ?>'><?php echo $row['username'] ?></a>
                                         </span>
                                         <span>
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
                                             <?php echo $row['post_date'] ?>
                                         </span>
                                     </div>
-                                    <p class="description">
-                                        Create applications, complete web systems and advanced reports with Business Intelligence concepts using our database-based PHP code generator..........
-                                    </p>
+                                    <p class="description"> <?php echo substr($row['post_desc'], 0, 150).'....' ?> </p>
                                     <a class='read-more pull-right' href='single.php?id=<?php echo $row['post_id']?>'>read more</a>
                                 </div>
                             </div>
@@ -91,7 +89,7 @@
                     $total_page = ceil($total_user / $limit);
                     echo '<ul class="pagination admin-pagination">';
                     if ($page_number > 1) {
-                        echo '<li><a href="category.php?page=' . ($page_number - 1) . '">prev</a></li>';
+                        echo '<li><a href="category.php?category_id='.$id.'&page=' . ($page_number - 1) . '">prev</a></li>';
                     }
                     for ($i = 1; $i <= $total_page; $i++) {
                         if ($i == $page_number) {
@@ -100,11 +98,11 @@
                             $active = "";
                         }
 
-                        echo '<li class="' . $active . '"><a href="category.php?id='.$id.'page=' . $i . '">' . $i . '</a></li>';
+                        echo '<li class="' . $active . '"><a href="category.php?category_id='.$id.'&page=' . $i . '">' . $i . '</a></li>';
                     }
 
                     if ($total_page > $page_number) {
-                        echo '<li><a href="category.php?page=' . ($page_number + 1) . '">next</a></li>';
+                        echo '<li><a href="category.php?category_id='.$id.'&page=' . ($page_number + 1) . '">next</a></li>';
                     }
                     echo '</ul>';
                 }
