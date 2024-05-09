@@ -5,132 +5,115 @@
             <div class="col-md-8">
                 <!-- post-container -->
                 <div class="post-container">
-                  <h2 class="page-heading">Search : Search Term</h2>
-                    <div class="post-content">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a class="post-img" href="single.php"><img src="images/post-format.jpg" alt=""/></a>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="inner-content clearfix">
-                                    <h3><a href='single.php'>PHP - Web Development</a></h3>
-                                    <div class="post-information">
-                                        <span>
-                                            <i class="fa fa-tags" aria-hidden="true"></i>
-                                            <a href='category.php'>PHP</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php'>Admin</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            19 July, 2020
-                                        </span>
-                                    </div>
-                                    <p class="description">
-                                        Create applications, complete web systems and advanced reports with Business Intelligence concepts using our database-based PHP code generator..........
-                                    </p>
-                                    <a class='read-more pull-right' href='single.php'>read more</a>
+<?php 
+
+include "admin/config.php";
+if (isset($_GET['search'])) {
+    $search = $_GET['search'];
+     
+
+
+?>
+              <h2 class="page-heading"> Search: <?php echo $search ?></h2>
+
+<?php 
+include "admin/config.php";
+
+$limit = 5;
+
+if (isset($_GET['page'])) {
+    $page_number = $_GET['page'];
+} else {
+    $page_number = 1;
+}
+
+$offset = ($page_number - 1) * $limit;
+if (isset($_REQUEST['search'])) {
+    $search =  mysqli_real_escape_string($connection, $_GET['search']);
+
+
+$query2 = "SELECT post.post_id, post.post_title, post.post_desc,post.category, post.post_img, post.post_date,
+category.category_name, user.username, user.id FROM post 
+LEFT JOIN category ON post.category = category.category_id
+LEFT JOIN user ON post.author = user.id
+WHERE post.post_title LIKE '%{$search}%' OR post.post_desc LIKE '%{$search}%' ORDER BY post_title DESC LIMIT {$offset}, {$limit} ";
+$result2 = mysqli_query($connection, $query2) or die('Query Field');
+$count = mysqli_num_rows($result2);
+
+if ($count > 0) {
+while ($row2 = mysqli_fetch_assoc($result2)) {
+
+                
+
+?>
+                <div class="post-content">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a class="post-img" href="single.php?id=<?php echo $row2['post_id']?>"><img src="admin/upload/<?php echo $row2['post_img']?>" alt=""/></a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="inner-content clearfix">
+                                <h3><a href="single.php?id=<?php echo $row2['post_id']?>"><?php echo $row2['post_title']?></a></h3>
+                                <div class="post-information">
+                                    <span>
+                                        <i class="fa fa-tags" aria-hidden="true"></i>
+                                        <a href='category.php?category_id=<?php echo $row2['category'] ?>'><?php echo $row2['category_name']?></a>
+                                    </span>
+                                    <span>
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        <a href='author.php?id=<?php echo $row2['id']?>'><?php echo $row2['username']?></a>
+                                    </span>
+                                    <span>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        <?php echo $row2['post_date']?>
+                                    </span>
                                 </div>
+                                <p class="description"> <?php echo substr($row2['post_desc'], 0, 150).'...'?> </p>
+                                <a class='read-more pull-right' href="single.php?id=<?php echo $row2['post_id']?>">read more</a>
                             </div>
                         </div>
                     </div>
-                    <div class="post-content">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a class="post-img" href="single.php"><img src="images/post_1.jpg" alt=""/></a>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="inner-content clearfix">
-                                    <h3><a href='single.php'>JavaScript — Dynamic client-side scripting</a></h3>
-                                    <div class="post-information">
-                                        <span>
-                                            <i class="fa fa-tags" aria-hidden="true"></i>
-                                            <a href='category.php'>PHP</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php'>Admin</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            19 July, 2020
-                                        </span>
-                                    </div>
-                                    <p class="description">
-                                        JavaScript is a programming language that allows you to implement complex things on web pages. Every time a web page does more than just sit there and display static information for you to look at—displaying timely content updates......
-                                    </p>
-                                    <a class='read-more pull-right' href='single.php'>read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a class="post-img" href="single.php"><img src="images/post-format.jpg" alt=""/></a>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="inner-content clearfix">
-                                    <h3><a href='single.php'>PHP - Web Development</a></h3>
-                                    <div class="post-information">
-                                        <span>
-                                            <i class="fa fa-tags" aria-hidden="true"></i>
-                                            <a href='category.php'>PHP</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php'>Admin</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            19 July, 2020
-                                        </span>
-                                    </div>
-                                    <p class="description">
-                                        Create applications, complete web systems and advanced reports with Business Intelligence concepts using our database-based PHP code generator..........
-                                    </p>
-                                    <a class='read-more pull-right' href='single.php'>read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a class="post-img" href="single.php"><img src="images/post_1.jpg" alt=""/></a>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="inner-content clearfix">
-                                    <h3><a href='single.php'>JavaScript — Dynamic client-side scripting</a></h3>
-                                    <div class="post-information">
-                                        <span>
-                                            <i class="fa fa-tags" aria-hidden="true"></i>
-                                            <a href='category.php'>PHP</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php'>Admin</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            19 July, 2020
-                                        </span>
-                                    </div>
-                                    <p class="description">
-                                        JavaScript is a programming language that allows you to implement complex things on web pages. Every time a web page does more than just sit there and display static information for you to look at—displaying timely content updates......
-                                    </p>
-                                    <a class='read-more pull-right' href='single.php'>read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class='pagination'>
-                        <li class="active"><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                    </ul>
+                </div>
+
+
+<?php
+            }
+       } else {
+        echo "No result Found.";
+       }
+    }
+}
+
+    if (isset($_REQUEST['search'])) {
+    $query2 = "SELECT * FROM post WHERE post.post_title LIKE '%{$search}%' OR post.post_desc LIKE '%{$search}%' ORDER BY post_title DESC";
+    $result2 = mysqli_query($connection, $query2) or die("Failed.");
+
+
+    if (mysqli_num_rows($result2)) {
+        $total_user = mysqli_num_rows($result2);
+        $total_page = ceil($total_user / $limit);
+        echo '<ul class="pagination admin-pagination">';
+        if ($page_number > 1) {
+            echo '<li><a href="search.php?search='.$search.'&page=' . ($page_number - 1) . '">prev</a></li>';
+        }
+        for ($i = 1; $i <= $total_page; $i++) {
+            if ($i == $page_number) {
+                $active = "active";
+            } else {
+                $active = "";
+            }
+
+            echo '<li class="' . $active . '"><a href="search.php?search='.$search.'&page=' . $i . '">' . $i . '</a></li>';
+        }
+
+        if ($total_page > $page_number) {
+            echo '<li><a href="search.php?search='.$search.'&page=' . ($page_number + 1) . '">next</a></li>';
+        }
+        echo '</ul>';
+    }
+}
+?>
                 </div><!-- /post-container -->
             </div>
             <?php include 'sidebar.php'; ?>

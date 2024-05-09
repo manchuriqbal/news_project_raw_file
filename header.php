@@ -30,18 +30,56 @@
 </div>
 <!-- /HEADER -->
 <!-- Menu Bar -->
+
+<?php 
+
+include "admin/config.php";
+
+if (isset($_GET['category_id'])) {
+    $category_id = $_GET['category_id'];
+}
+
+$query = "SELECT * FROM category WHERE post > 0";
+$result = mysqli_query($connection, $query) or die("query failed!");
+
+if (mysqli_num_rows($result)> 0) {
+    
+
+
+?>
 <div id="menu-bar">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <ul class='menu'>
-                    <li><a href='category.php'>World</a></li>
-                    <li><a href='category.php'>Local News</a></li>
-                    <li><a href='category.php'>Technology</a></li>
-                    <li><a href='category.php'>Science</a></li>
+        <?php
+        $active = "";
+        while ($row=mysqli_fetch_assoc($result)) {
+            if (isset($_GET['category_id'])) {
+                if ($row['category_id'] == $category_id) {
+                    $active = "active";
+                } else{
+                    $active = "";
+                }
+            }
+
+        ?>
+        <li><a class="<?php echo $active ?>" href='category.php?category_id=<?php echo $row['category_id']?>'><?php echo $row['category_name']?></a></li>
+                    
+        <?php
+
+            
+        } 
+        ?>
                 </ul>
             </div>
         </div>
     </div>
 </div>
+
+<?php 
+
+    }
+
+?>
 <!-- /Menu Bar -->
